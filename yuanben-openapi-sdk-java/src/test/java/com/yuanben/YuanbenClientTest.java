@@ -17,6 +17,7 @@
 package com.yuanben;
 
 import com.alibaba.fastjson.JSON;
+import com.yuanben.common.HttpUtil;
 import com.yuanben.model.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpException;
@@ -31,7 +32,7 @@ import java.util.List;
 public class YuanbenClientTest {
 
     public YuanbenClientTest() throws HttpException {
-        YuanbenClient.Init("http://openapi.staging.yuanben.site/v1/media", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aS...");
+        YuanbenClient.Init("http://openapi.staging.yuanben.site/v1/media", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImQ0NDBiNTYxYWZhM2NmMjExMTY0M2E5YWIzM2Q3Y2JhZTcxY2JkOGU5MTRkNjk1OTBkZjFjZjY5MzQyMDZjOWJiMzE4ZmRkYTk5MzU2ODBhIn0.eyJhdWQiOiIxIiwianRpIjoiZDQ0MGI1NjFhZmEzY2YyMTExNjQzYTlhYjMzZDdjYmFlNzFjYmQ4ZTkxNGQ2OTU5MGRmMWNmNjkzNDIwNmM5YmIzMThmZGRhOTkzNTY4MGEiLCJpYXQiOjE1NDQ1MTc5MzIsIm5iZiI6MTU0NDUxNzkzMiwiZXhwIjoxODYwMTM3MTMxLCJzdWIiOiIzNjc1Iiwic2NvcGVzIjpbIm1lZGlhIl19.JnsLDSFvqIH94LgXmujjLNhtkejQK4RtGLLedB91cqSlo4HI_dd8gJzw0qZJCA_VVMT54Bd93t8nabh79-nC-L2wKFgHRKyz1U9pa_pKCZcpfkOwe4QG3YKnLsoqO5kINWuy9eX-Zi0zw0zHBZ9lrlR9ePEJPrSVHe_GsfZ7g0urthrqBV2TXTj8GRBgXlTuJzeW1QWnHONrwd1ofQ-Z9l4JlOUy9LdVXyfCH644GgqRjTo18jFit9Y2VZqP6ySY0mMA635DQgYhyZsdkRZ9mJDkMfp9hfyI31rGOWP3iGuTg36RlLr3Olq6c5J6Q3_qvTVpVj3dz6C1-NA_VA4FfA3y80pwWGnXhJYCuKPSKw6wKZ9MKM1e3tH5EIiICGMz7KXJlac6_NVL037-hrKqdso1VxWWAGzSH_tU4Ska_90I6lUKmTfcmvFoF9fln6_aj98B8klC8rXNzwJjxSFT1JM8a6mB9pvZZJrsrhYn9g9G-skstpn1Mfz0XbumxR4inMBhh-_n171PkkrpbF4rsX1voID5zBFqQyIpFFGC8EBfVviyo9rbg_r5FbVrjoVI_BK6HvHjxFIxIwjtst4fNlQo8XQpRIiKU3bh-AAMIFu6j64MUsJWKdkHdcobpuFvjRB9ynQtiHPq-ojlmbF2uai9sRwDtnBoVJB8XCnzrNw");
     }
 
     @Test
@@ -117,4 +118,13 @@ public class YuanbenClientTest {
         System.out.println(JSON.toJSON(resp));
     }
 
+    @Test
+    public void hydxTest() {
+        try {
+            HttpUtil httpUtil = new HttpUtil();
+            httpUtil.hydxTest();
+        } catch (HttpException e) {
+            e.printStackTrace();
+        }
+    }
 }

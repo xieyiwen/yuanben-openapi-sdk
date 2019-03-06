@@ -16,6 +16,8 @@
 
 package com.yuanben.common;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,14 +36,15 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -95,7 +98,6 @@ public class HttpUtil {
         return respJson;
     }
 
-
     protected HttpClientConnectionManager createHttpClientConnectionManager() throws HttpException {
         SSLContext sslContext = null;
         try {
@@ -112,6 +114,7 @@ public class HttpUtil {
             throw new HttpException(e.getMessage());
         }
 
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
         SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext,
                 NoopHostnameVerifier.INSTANCE);
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
@@ -133,6 +136,97 @@ public class HttpUtil {
                 .disableContentCompression().disableAutomaticRetries().build();
     }
 
+
+    public  void hydxTest(){
+        //参数从前台传过来
+//        String client_id = this.getRequest().getParameter("");
+//        String title = this.getRequest().getParameter("");
+//        String acontent = this.getRequest().getParameter("");
+//        String content_adaptation = this.getRequest().getParameter("");
+//        String content_commercial = this.getRequest().getParameter("");
+//        String content_type = this.getRequest().getParameter("");
+//        String content_c_adaptation = this.getRequest().getParameter("");
+//        String content_c_commercial = this.getRequest().getParameter("");
+
+        //token获取
+        String access_token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImZmMzFlMzA4ZDk4MTg1YWJhZjUyNTQzNDFmMjNhZTVhMmIwMGNhMmEyMThiMjBlMmZkZGRhZDA2ZmU2MmFlNjJiMWIyZjk4NjMwNjVkNTY4In0.eyJhdWQiOiIxIiwianRpIjoiZmYzMWUzMDhkOTgxODVhYmFmNTI1NDM0MWYyM2FlNWEyYjAwY2EyYTIxOGIyMGUyZmRkZGFkMDZmZTYyYWU2MmIxYjJmOTg2MzA2NWQ1NjgiLCJpYXQiOjE1NTE4NDI3NjEsIm5iZiI6MTU1MTg0Mjc2MSwiZXhwIjoxODY3NDYxOTYxLCJzdWIiOiIxOTYwIiwic2NvcGVzIjpbIm1lZGlhIl19.pb87Wpmpi23MFTSVDAGNuYmlny5oAmfV0ta7G8S5XEyjcUC5zB_lZ6iDFf9-02Ni6tImg-AT5sDP7KeRo1kpT6dHlsxH7jO25LAYl7g0CywpaZraozewgQ1RmoxUU6KMBJGf5BJYvbOTy_1IHrBIjmMsvM9ydxeL4h8t_QkHYK5dtisUUqbjn2CSOEf-YJIhF7v8zw4su_FLS7NXtKH3L8oJAaTjWmFFb9rkTX_Tp-mSW8m5ABzO1WP2JZqQTtKj6dzJzQx2GonY-Ge5qvRa1wERUQ-do4VnU7QcBEBvqn-1hr8xOQhHb_xWtdCcEQjbz2l0LoDebcsr5W2PMcyiCg8JFyouctcaJHQk8jkwMRYbAkWU0DojELYZsBI69a0dnDZfO--AnsZpuxNd8VCh7duXUAaK8Q3Xd4EKxeA-uA8vC73FWwW0veOIdUlLNuT3ZJezIevTgW_536SgAUOM_WJc1D4h-R_76pzrvc_A1wIPSSF-nnCoQdoWYNkHMC39zarVuludD3HN051AuQ_qX0DRnBtfoRl0QZrOTNnBh62NiaczC2IWamTuzZGeccwuZJTMQxyA6jnJgGul1TGr7Jw2e49HKV9owNQHAgNplxRs4jLEsjlkiCMfApv9pdh8zOgRrSYOmryCEPQzQvwfE3kjpfmtGlqU9QdDkYMyho8";
+
+        //封装地址
+        String url = "https://openapi.yuanben.io/v1/media/articles";
+        //封装请求头
+        Map<String,String> header = new HashMap<String,String>();
+        header.put("Content-Type", "application/json");
+        header.put("Authorization", access_token);
+        //封装请求参数
+        JSONObject param = new JSONObject();
+        JSONArray articles = new JSONArray();
+        JSONObject article = new JSONObject();
+        article.put("client_id", 5);
+        article.put("title", "测试文章");
+        article.put("content", "<p>一篇测试文章</p>");
+
+        JSONObject content = new JSONObject();
+        content.put("adaptation", "sa");
+        content.put("commercial", "n");
+        JSONObject license = new JSONObject();
+        license.put("type", "cc");
+        license.put("content", content);
+
+        article.put("license", license);
+        articles.add(article);
+        param.put("articles", articles);
+
+        HttpClientConnectionManager connectionManager = null;
+        CloseableHttpClient httpClient = null;
+        try {
+            connectionManager = createHttpClientConnectionManager();
+            httpClient = createHttpClient(connectionManager);
+
+            HttpPost httpPost = new HttpPost(url);
+            if (header != null && header.size() > 0) {
+                Iterator<String> iterator = header.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String key = iterator.next();
+                    httpPost.addHeader(key, header.get(key));
+                }
+            }
+            StringEntity entity = new StringEntity(param.toString(), "UTF-8");
+
+            httpPost.setEntity(entity);
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                String line = new BufferedReader(new InputStreamReader(response.getEntity().getContent())).readLine();
+                throw new HttpException(Strings.unicodeToCn(line));
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line;
+            String respJson = "";
+            while ((line = reader.readLine()) != null) {
+                respJson += line;
+            }
+            System.out.println(respJson);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            } catch (Exception ex) {
+                System.out.println("关闭httpClient出错！");
+                ex.printStackTrace();
+            }
+            try {
+                if (connectionManager != null) {
+                    connectionManager.closeExpiredConnections();
+                }
+            } catch (Exception ex) {
+                System.out.println("关闭connectionManager出错！");
+                ex.printStackTrace();
+            }
+        }
+    }
 }
 
 
