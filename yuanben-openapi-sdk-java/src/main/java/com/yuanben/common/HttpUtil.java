@@ -149,7 +149,7 @@ public class HttpUtil {
 //        String content_c_commercial = this.getRequest().getParameter("");
 
         //token获取
-        String access_token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImZmMzFlMzA4ZDk4MTg1YWJhZjUyNTQzNDFmMjNhZTVhMmIwMGNhMmEyMThiMjBlMmZkZGRhZDA2ZmU2MmFlNjJiMWIyZjk4NjMwNjVkNTY4In0.eyJhdWQiOiIxIiwianRpIjoiZmYzMWUzMDhkOTgxODVhYmFmNTI1NDM0MWYyM2FlNWEyYjAwY2EyYTIxOGIyMGUyZmRkZGFkMDZmZTYyYWU2MmIxYjJmOTg2MzA2NWQ1NjgiLCJpYXQiOjE1NTE4NDI3NjEsIm5iZiI6MTU1MTg0Mjc2MSwiZXhwIjoxODY3NDYxOTYxLCJzdWIiOiIxOTYwIiwic2NvcGVzIjpbIm1lZGlhIl19.pb87Wpmpi23MFTSVDAGNuYmlny5oAmfV0ta7G8S5XEyjcUC5zB_lZ6iDFf9-02Ni6tImg-AT5sDP7KeRo1kpT6dHlsxH7jO25LAYl7g0CywpaZraozewgQ1RmoxUU6KMBJGf5BJYvbOTy_1IHrBIjmMsvM9ydxeL4h8t_QkHYK5dtisUUqbjn2CSOEf-YJIhF7v8zw4su_FLS7NXtKH3L8oJAaTjWmFFb9rkTX_Tp-mSW8m5ABzO1WP2JZqQTtKj6dzJzQx2GonY-Ge5qvRa1wERUQ-do4VnU7QcBEBvqn-1hr8xOQhHb_xWtdCcEQjbz2l0LoDebcsr5W2PMcyiCg8JFyouctcaJHQk8jkwMRYbAkWU0DojELYZsBI69a0dnDZfO--AnsZpuxNd8VCh7duXUAaK8Q3Xd4EKxeA-uA8vC73FWwW0veOIdUlLNuT3ZJezIevTgW_536SgAUOM_WJc1D4h-R_76pzrvc_A1wIPSSF-nnCoQdoWYNkHMC39zarVuludD3HN051AuQ_qX0DRnBtfoRl0QZrOTNnBh62NiaczC2IWamTuzZGeccwuZJTMQxyA6jnJgGul1TGr7Jw2e49HKV9owNQHAgNplxRs4jLEsjlkiCMfApv9pdh8zOgRrSYOmryCEPQzQvwfE3kjpfmtGlqU9QdDkYMyho8";
+        String access_token = "Bearer eyJ0eXAiOiJKV1QiLCJhbG......dDkYMyho8";
 
         //封装地址
         String url = "https://openapi.yuanben.io/v1/media/articles";
