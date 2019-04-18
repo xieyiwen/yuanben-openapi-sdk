@@ -63,14 +63,13 @@ public class YuanbenClient {
             if (Strings.isBlank(article.getTitle())) {
                 throw new InvalidParametersException("[article]title is empty :" + article.getClientID());
             }
-            if (article.getLicense() == null || article.getContent() == null
-                    || Strings.isBlank(article.getLicense().getType())) {
+            if (article.getLicense() == null || Strings.isBlank(article.getLicense().getType())) {
                 throw new InvalidParametersException("[article]license is empty :" + article.getClientID());
             }
-            if (Strings.isBlank(article.getLicense().getContent().getAdaptation())) {
-                throw new InvalidParametersException("[article]license's adaptation is empty :" + article.getClientID());
-            }
             if (License.CC.equals(article.getLicense().getType())) {
+                if (Strings.isBlank(article.getLicense().getContent().getAdaptation())) {
+                    throw new InvalidParametersException("[article]license's adaptation is empty :" + article.getClientID());
+                }
                 if (!"y".equals(article.getLicense().getContent().getAdaptation()) && !"n".equals(article.getLicense().getContent().getAdaptation())
                         && !"sa".equals(article.getLicense().getContent().getAdaptation())) {
                     throw new InvalidParametersException("[article]adaption is must in ['y','n','sa'] for CC :" + article.getClientID());
@@ -79,12 +78,17 @@ public class YuanbenClient {
                     throw new InvalidParametersException("[article]commercial is a must for CC :" + article.getClientID());
                 }
             } else if (License.CM.equals(article.getLicense().getType())) {
+                if (Strings.isBlank(article.getLicense().getContent().getAdaptation())) {
+                    throw new InvalidParametersException("[article]license's adaptation is empty :" + article.getClientID());
+                }
                 if (!"y".equals(article.getLicense().getContent().getAdaptation()) && !"n".equals(article.getLicense().getContent().getAdaptation())) {
                     throw new InvalidParametersException("[article]adaption is must in ['y','n'] for CM :" + article.getClientID());
                 }
                 if (article.getLicense().getContent().getPrice() < 0) {
                     throw new InvalidParametersException("[article]price is a must for CM :" + article.getClientID());
                 }
+            } else if (License.NONE.equals(article.getLicense().getType())) {
+
             } else {
                 throw new InvalidParametersException("[article]incorrect license :" + article.getClientID());
             }
@@ -114,14 +118,13 @@ public class YuanbenClient {
             if (image.getTags() == null || image.getTags().size() < 1) {
                 throw new InvalidParametersException("[image]tags is empty :" + image.getClientID());
             }
-            if (image.getLicense() == null || image.getLicense().getContent() == null
-                    || Strings.isBlank(image.getLicense().getType())) {
+            if (image.getLicense() == null || Strings.isBlank(image.getLicense().getType())) {
                 throw new InvalidParametersException("[image]license is empty :" + image.getClientID());
             }
-            if (Strings.isBlank(image.getLicense().getContent().getAdaptation())) {
-                throw new InvalidParametersException("[image]license's adaptation is empty :" + image.getClientID());
-            }
             if (License.CC.equals(image.getLicense().getType())) {
+                if (Strings.isBlank(image.getLicense().getContent().getAdaptation())) {
+                    throw new InvalidParametersException("[image]license's adaptation is empty :" + image.getClientID());
+                }
                 if (!"y".equals(image.getLicense().getContent().getAdaptation()) && !"n".equals(image.getLicense().getContent().getAdaptation())
                         && !"sa".equals(image.getLicense().getContent().getAdaptation())) {
                     throw new InvalidParametersException("[image]adaption is must in ['y','n','sa'] for CC :" + image.getClientID());
@@ -130,12 +133,17 @@ public class YuanbenClient {
                     throw new InvalidParametersException("[image]commercial is a must for CC :" + image.getClientID());
                 }
             } else if (License.CM.equals(image.getLicense().getType())) {
+                if (Strings.isBlank(image.getLicense().getContent().getAdaptation())) {
+                    throw new InvalidParametersException("[image]license's adaptation is empty :" + image.getClientID());
+                }
                 if (!"y".equals(image.getLicense().getContent().getAdaptation()) && !"n".equals(image.getLicense().getContent().getAdaptation())) {
                     throw new InvalidParametersException("[image]adaption is must in ['y','n'] for CM :" + image.getClientID());
                 }
                 if (image.getLicense().getContent().getPrice() < 0) {
                     throw new InvalidParametersException("[image]price is a must for CM :" + image.getClientID());
                 }
+            } else if (License.NONE.equals(image.getLicense().getType())) {
+
             } else {
                 throw new InvalidParametersException("[image]incorrect license :" + image.getClientID());
             }
@@ -148,7 +156,6 @@ public class YuanbenClient {
         auth.put("authorization", "Bearer " + this.accessToken);
         auth.put("Content-Type", "application/json");
         String jsonResp = httpUtil.sendPost(this.url + "/images", JSON.toJSONString(req), auth);
-        System.out.println(jsonResp);
         return JSON.parseObject(jsonResp, ImageSaveResp.class);
     }
 }

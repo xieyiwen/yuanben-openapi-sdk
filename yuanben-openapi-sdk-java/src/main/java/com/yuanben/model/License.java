@@ -25,6 +25,7 @@ import java.io.Serializable;
 public class License implements Serializable {
     public static String CC = "cc";
     public static String CM = "cm";
+    public static String NONE = "none";
 
     private String type;
     private LicenseParameters content;

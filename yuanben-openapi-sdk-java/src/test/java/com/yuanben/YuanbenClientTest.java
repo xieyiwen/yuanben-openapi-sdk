@@ -17,7 +17,6 @@
 package com.yuanben;
 
 import com.alibaba.fastjson.JSON;
-import com.yuanben.common.HttpUtil;
 import com.yuanben.model.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpException;
@@ -116,15 +115,5 @@ public class YuanbenClientTest {
 
         assert resp.getStatus().getCode() == 200 : resp.getStatus().getMessage();
         System.out.println(JSON.toJSON(resp));
-    }
-
-    @Test
-    public void hydxTest() {
-        try {
-            HttpUtil httpUtil = new HttpUtil();
-            httpUtil.hydxTest();
-        } catch (HttpException e) {
-            e.printStackTrace();
-        }
     }
 }

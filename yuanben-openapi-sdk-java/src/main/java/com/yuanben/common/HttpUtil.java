@@ -16,8 +16,6 @@
 
 package com.yuanben.common;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -44,7 +42,6 @@ import java.io.InputStreamReader;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -134,98 +131,6 @@ public class HttpUtil {
     protected CloseableHttpClient createHttpClient(HttpClientConnectionManager connectionManager) {
         return HttpClients.custom().setConnectionManager(connectionManager)
                 .disableContentCompression().disableAutomaticRetries().build();
-    }
-
-
-    public  void hydxTest(){
-        //参数从前台传过来
-//        String client_id = this.getRequest().getParameter("");
-//        String title = this.getRequest().getParameter("");
-//        String acontent = this.getRequest().getParameter("");
-//        String content_adaptation = this.getRequest().getParameter("");
-//        String content_commercial = this.getRequest().getParameter("");
-//        String content_type = this.getRequest().getParameter("");
-//        String content_c_adaptation = this.getRequest().getParameter("");
-//        String content_c_commercial = this.getRequest().getParameter("");
-
-        //token获取
-        String access_token = "Bearer eyJ0eXAiOiJKV1QiLCJhbG......dDkYMyho8";
-
-        //封装地址
-        String url = "https://openapi.yuanben.io/v1/media/articles";
-        //封装请求头
-        Map<String,String> header = new HashMap<String,String>();
-        header.put("Content-Type", "application/json");
-        header.put("Authorization", access_token);
-        //封装请求参数
-        JSONObject param = new JSONObject();
-        JSONArray articles = new JSONArray();
-        JSONObject article = new JSONObject();
-        article.put("client_id", 5);
-        article.put("title", "测试文章");
-        article.put("content", "<p>一篇测试文章</p>");
-
-        JSONObject content = new JSONObject();
-        content.put("adaptation", "sa");
-        content.put("commercial", "n");
-        JSONObject license = new JSONObject();
-        license.put("type", "cc");
-        license.put("content", content);
-
-        article.put("license", license);
-        articles.add(article);
-        param.put("articles", articles);
-
-        HttpClientConnectionManager connectionManager = null;
-        CloseableHttpClient httpClient = null;
-        try {
-            connectionManager = createHttpClientConnectionManager();
-            httpClient = createHttpClient(connectionManager);
-
-            HttpPost httpPost = new HttpPost(url);
-            if (header != null && header.size() > 0) {
-                Iterator<String> iterator = header.keySet().iterator();
-                while (iterator.hasNext()) {
-                    String key = iterator.next();
-                    httpPost.addHeader(key, header.get(key));
-                }
-            }
-            StringEntity entity = new StringEntity(param.toString(), "UTF-8");
-
-            httpPost.setEntity(entity);
-            CloseableHttpResponse response = httpClient.execute(httpPost);
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                String line = new BufferedReader(new InputStreamReader(response.getEntity().getContent())).readLine();
-                throw new HttpException(Strings.unicodeToCn(line));
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            String line;
-            String respJson = "";
-            while ((line = reader.readLine()) != null) {
-                respJson += line;
-            }
-            System.out.println(respJson);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (httpClient != null) {
-                    httpClient.close();
-                }
-            } catch (Exception ex) {
-                System.out.println("关闭httpClient出错！");
-                ex.printStackTrace();
-            }
-            try {
-                if (connectionManager != null) {
-                    connectionManager.closeExpiredConnections();
-                }
-            } catch (Exception ex) {
-                System.out.println("关闭connectionManager出错！");
-                ex.printStackTrace();
-            }
-        }
     }
 }
 
